@@ -1,10 +1,7 @@
-from flask import Flask, escape, request, render_template as view,url_for,flash,redirect
-from forms import RegistrationForm, LoginForm
-
-
-app = Flask(__name__)
-app.config['SECRET_KEY'] = '6dc87ef97b330819078b05a81754c06c'
-
+from flask import escape, request, render_template as view,url_for,flash,redirect
+from blogger.forms import RegistrationForm, LoginForm
+from blogger.models import User, Post
+from blogger import app
 posts = [
     {
         'author':'ABDO giprel',
@@ -23,7 +20,7 @@ def about():
     return view('about.html',title='About')
 
 
-@app.route('/register',methods=['GET','POST'])
+@app.route('/register',methods=['POST','GET'])
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
@@ -32,11 +29,13 @@ def register():
     return view('register.html',title='Register',form=form)
 
 
-@app.route('/login')
+@app.route('/login',methods=['POST','GET'])
 def login():
     form = LoginForm()
+    if form.validate_on_submit():
+        if form.email.data=="abdo@gamil.com" and form.password.data =="admin":
+            flash(f'Welcome Back Mr {form.email.data}!','success')
+            return redirect(url_for('home'))
+        else:
+            flash('Unsuccess login! check email or password','danger')
     return view('login.html',title='Login',form=form)
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
