@@ -30,14 +30,25 @@
               <a class="nav-link" href="{{url_for('about')}}">About</a>
             </li>
           </ul >
+          {%if current_user.is_authenticated %}
           <ul class="navbar-nav mr-rigth">
             <li class="nav-item active">
-              <a class="nav-link" href="{{url_for('login')}}">Login</a>
+              <a class="nav-link" href="{{url_for('account')}}">Account</a>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="{{url_for('register')}}">Register</a>
+              <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
             </li>
           </ul>
+            {%else%}
+              <ul class="navbar-nav mr-rigth">
+                <li class="nav-item active">
+                  <a class="nav-link" href="{{url_for('login')}}">Login</a>
+                </li>
+                <li class="nav-item active">
+                  <a class="nav-link" href="{{url_for('register')}}">Register</a>
+                </li>
+              </ul>
+          {%endif%}
         </div>
         <div class="navbar-collapse">
           
